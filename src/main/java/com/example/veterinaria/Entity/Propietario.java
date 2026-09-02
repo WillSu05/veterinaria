@@ -1,11 +1,12 @@
 package com.example.veterinaria.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.apachecommons.CommonsLog;
 
 @Entity
 @Table (name = "propietarios")
@@ -14,8 +15,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Propietario {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "NOMBRE OBLIGATORIO")
+    @Column(nullable = false, unique = true)
     private String nombre;
+
+    @NotBlank(message = "DOCUMENTO OBLIGATORIO")
+    @Column(nullable = false, unique = true)
     private String documento;
+
+    @NotBlank(message = "TELEFONO OBLIGATORIO")
+    @Column(nullable = false)
     private String telefono;
+
+    @NotBlank(message = "CORREO OBLIGATORIO")
+    @Email(message = "INGRESE UN CORREO VALIDO")
+    @Column(nullable = false, unique = true)
+    private String correo;
 }

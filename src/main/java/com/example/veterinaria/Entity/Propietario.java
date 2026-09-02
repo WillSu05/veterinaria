@@ -1,11 +1,13 @@
 package com.example.veterinaria.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.*;
 import lombok.extern.apachecommons.CommonsLog;
 
 @Entity
@@ -34,4 +36,8 @@ public class Propietario {
     @Email(message = "INGRESE UN CORREO VALIDO")
     @Column(nullable = false, unique = true)
     private String correo;
+
+    @OneToMany(mappedBy = "propietario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("propietario")
+    private List<Mascota> mascotas = new ArrayList<>();
 }

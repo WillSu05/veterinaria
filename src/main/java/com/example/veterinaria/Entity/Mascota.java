@@ -1,5 +1,6 @@
 package com.example.veterinaria.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -8,6 +9,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.*;
 
 @Entity
 @Table(name = "Mascotas")
@@ -40,4 +42,22 @@ public class Mascota {
     @Positive(message = "PESO MAYOR A 0")
     @Column(nullable = false)
     private double peso;
+
+    @OneToOne(mappedBy = "mascota", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("mascota")
+    private HistoriaClinica historiaClinica;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "propietario_id", nullable = false)
+    @JsonIgnoreProperties({"mascotas", "hibernateLazyInitializer", "handler"})
+    private Propietario propietario;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "mascota_veterinario",
+            joinColumns = @JoinColumn(name = "mascota_id"),
+            inverseJoinColumns = @JoinColumn(name = "veterinario_id")
+    )
+    @JsonIgnoreProperties({"mascotas", "hibernateLazyInitializer", "handler"})
+    private Set<Veterinario> veterinarios = new HashSet<>();
 }

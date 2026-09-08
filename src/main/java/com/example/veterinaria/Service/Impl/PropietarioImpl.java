@@ -48,7 +48,7 @@ public class PropietarioImpl implements PropietarioService {
     @Override
     public void eliminar(Long id) {
         if (!propietarioRepository.existsById(id)){
-            throw new RuntimeException("Propietario no encontrado");
+            throw new RecursoNoEncontrado("Propietario no encontrado");
         } propietarioRepository.deleteById(id);
     }
 }

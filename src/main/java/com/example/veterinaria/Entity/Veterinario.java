@@ -20,14 +20,14 @@ public class Veterinario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank(message = "NOMBRE OBLIGATORIO")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String nombre;
     @NotBlank(message = "INGRESE LA TARJETA PROFESIONAL")
     @Column(nullable = false, unique = true)
     private String tarjetaProfesional;
 
     @NotBlank(message = "ESPECIALIDAD OBLIGATORIA")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String especialidad;
     @NotBlank(message = "CORREO OBLIGATORIO")
     @Email(message = "INGRESE UN CORREO VALIDO")

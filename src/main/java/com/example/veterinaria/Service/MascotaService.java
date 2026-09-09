@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface MascotaService {
     Mascota buscarPorId (Long id);
+    List<Mascota> listarTodos();
     Mascota guardad(Mascota mascota, Long propietarioId);
     Mascota actualizar(Long id, Mascota mascota);
     void eliminar (Long id);
-    List<Mascota> buscarPorPropietario(Long propietarioId);
     Mascota asignarVeterinario(Long mascotaId, Long veterinarioId);
 }

@@ -9,6 +9,7 @@ import com.example.veterinaria.Repository.MascotaRepository;
 import com.example.veterinaria.Repository.PropietarioRepository;
 import com.example.veterinaria.Repository.VeterinarioRepository;
 import com.example.veterinaria.Service.MascotaService;
+import jakarta.transaction.TransactionScoped;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,12 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<Mascota> listarTodos() {
+        return mascotaRepository.findAll();
+    }
+
+    @Override
     @Transactional
     public Mascota guardad(Mascota mascota, Long propietarioId) {
         Propietario propietario = propietarioRepository.findById(propietarioId)
@@ -42,17 +49,19 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
+    @Transactional
     public Mascota actualizar(Long id, Mascota mascota) {
         Mascota mascotaExistente = buscarPorId(id);
         mascotaExistente.setNombre(mascota.getNombre());
         mascotaExistente.setEspecie(mascota.getEspecie());
         mascotaExistente.setRaza(mascota.getRaza());
         mascotaExistente.setEdad(mascota.getEdad());
+        mascotaExistente.setHistoriaClinica(mascota.getHistoriaClinica());
+        mascotaExistente.setVeterinarios(mascota.getVeterinarios());
         return mascotaRepository.save(mascotaExistente);
     }
 
     @Override
-    @Transactional
     public void eliminar(Long id) {
         if (!mascotaRepository.existsById(id)){
             throw new RecursoNoEncontrado("Mascota no Encontrada");
@@ -61,19 +70,12 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Mascota> buscarPorPropietario(Long propietarioId) {
-        if (!propietarioRepository.existsById(propietarioId)){
-            throw new RecursoNoEncontrado("Propietario no Encontrado con ID: "+ propietarioId);
-        }return mascotaRepository.findByPropietarioId(propietarioId);
-    }
-
-    @Override
     @Transactional
     public Mascota asignarVeterinario(Long mascotaId, Long veterinarioId) {
         Mascota mascota = buscarPorId(mascotaId);
         Veterinario veterinario = veterinarioRepository.findById(veterinarioId)
                 .orElseThrow(()-> new RecursoNoEncontrado("Veterinario no Encontrado con ID: "+ veterinarioId));
-        return null;
+        mascota.getVeterinarios().add(veterinario);
+        return mascotaRepository.save(mascota);
     }
 }

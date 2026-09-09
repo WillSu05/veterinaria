@@ -13,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PropietarioImpl implements PropietarioService {
     private final PropietarioRepository propietarioRepository;
+
     @Override
     @Transactional(readOnly = true)
     public List<Propietario> listarTodos() {
@@ -41,7 +42,6 @@ public class PropietarioImpl implements PropietarioService {
         actual.setDocumento(propietario.getDocumento());
         actual.setTelefono(propietario.getTelefono());
         actual.setCorreo(propietario.getCorreo());
-        actual.setMascotas(propietario.getMascotas());
         return propietarioRepository.save(actual);
     }
 

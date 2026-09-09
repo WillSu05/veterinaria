@@ -17,7 +17,7 @@ import java.util.List;
 public class PropietarioController {
     private final PropietarioService propietarioService;
 
-    @GetMapping("/listarPropietarios")
+    @GetMapping("/listar")
     public ResponseEntity<List<Propietario>> listarTodos() {
         var propietarios = propietarioService.listarTodos();
         return ResponseEntity.ok(propietarios);
@@ -30,23 +30,24 @@ public class PropietarioController {
     }
 
 
-    @PostMapping("/crearPropietario")
+    @PostMapping("/crear")
     public ResponseEntity <Propietario> guardar(@RequestBody Propietario propietario) {
         return ResponseEntity.ok(propietarioService.guardar(propietario));
     }
 
-    @PutMapping("/actualizarPropietario")
+    @PutMapping("/actualizarP/{id}")
     public ResponseEntity <Propietario> actualizar(@PathVariable Long id, @RequestBody Propietario propietario) {
         var propietarioActu =propietarioService.actualizar(id, propietario);
-
-        return(propietarioActu !=null)
-                ? ResponseEntity.ok(propietarioActu)
-                : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(propietarioActu);
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public void eliminar(Long id) {
+    public ResponseEntity <Void> eliminar(@PathVariable Long id) {
         propietarioService.eliminar(id);
+        return ResponseEntity
+                .noContent()
+                .build();
+
     }
 
 }

@@ -25,7 +25,6 @@ public class Veterinario {
     @NotBlank(message = "INGRESE LA TARJETA PROFESIONAL")
     @Column(nullable = false, unique = true)
     private String tarjetaProfesional;
-
     @NotBlank(message = "ESPECIALIDAD OBLIGATORIA")
     @Column(nullable = false)
     private String especialidad;

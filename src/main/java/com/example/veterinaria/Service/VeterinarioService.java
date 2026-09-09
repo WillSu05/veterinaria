@@ -10,5 +10,4 @@ public interface VeterinarioService {
     Veterinario buscarPorId(Long id);
     Veterinario actualizar(Long id, Veterinario veterinario);
     void eliminar(Long id);
-
 }

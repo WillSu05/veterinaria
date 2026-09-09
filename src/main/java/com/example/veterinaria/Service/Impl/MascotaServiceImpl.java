@@ -42,9 +42,6 @@ public class MascotaServiceImpl implements MascotaService{
         Propietario propietario = propietarioRepository.findById(propietarioId)
                 .orElseThrow(()-> new RecursoNoEncontrado("Propietario no Encontrado con ID: "+ propietarioId));
         mascota.setPropietario(propietario);
-        if (mascota.getHistoriaClinica() != null){
-            mascota.getHistoriaClinica().setMascota(mascota);
-        }
         return mascotaRepository.save(mascota);
     }
 

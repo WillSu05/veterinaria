@@ -33,7 +33,7 @@ public class HistoriaClinicaController {
 
     }
 
-    @PostMapping("/crearHistoria")
+    @PostMapping("/crearHistoria/{mascotaID}")
     public ResponseEntity <HistoriaClinica> crear(@RequestBody HistoriaClinica historia, @RequestParam Long mascotaID) {
         HistoriaClinica nuevaHistoriaClinica = historiaClinicaService.crear(historia, mascotaID);
         return ResponseEntity.ok(nuevaHistoriaClinica);

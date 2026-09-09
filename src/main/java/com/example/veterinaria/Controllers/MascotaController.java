@@ -27,7 +27,7 @@ public class MascotaController {
         var mascotas = mascotaService.listarTodos();
         return ResponseEntity.ok(mascotas);
     }
-    @PostMapping("/crearMascota")
+    @PostMapping("/crearMascota/{propietarioId}")
     public ResponseEntity <Mascota> guardad(@RequestBody Mascota mascota, @PathVariable Long propietarioId) {
         return ResponseEntity.ok(mascotaService.guardad(mascota,propietarioId));
     }
